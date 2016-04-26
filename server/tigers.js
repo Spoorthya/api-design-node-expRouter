@@ -5,19 +5,12 @@ var tigerRouter = require('express').Router();
 var tigers = [];
 var id = 0;
 
-var updateId = function(req, res, next) {
-  if (!req.body.id) {
-    id++;
-    req.body.id = id + '';
-  }
-  next();
-};
 
 tigerRouter.param('id', function(req, res, next, id) {
-  var lion = _.find(tigers, {id: id})
+  var tiger = _.find(tigers, {id: id})
 
-  if (lion) {
-    req.lion = lion;
+  if (tiger) {
+    req.tiger = tiger;
     next();
   } else {
     res.send();
@@ -28,9 +21,10 @@ tigerRouter.route('/')
   .get(function(req, res){
     res.json(tigers);
   })
-  .post(updateId, function(req, res) {
+  .post(function(req, res) {
     var tiger = req.body;
-
+    id++;
+      tiger.id = id + '';
     tigers.push(tiger);
 
     res.json(tiger);
